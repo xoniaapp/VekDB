@@ -15,6 +15,16 @@ type Value struct {
 	Value string `json:"value"`
 }
 
+func main() {
+	log.Println("vekDB Starting...")
+
+	http.HandleFunc("/create", postValue)
+	http.HandleFunc("/get", getValue)
+
+	log.Println("vekDB Started!")
+	http.ListenAndServe(":3000", nil)
+}
+
 func getValue(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("content-type", "application/json")
 	w.WriteHeader(http.StatusAccepted)
@@ -38,14 +48,4 @@ func postValue(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("content-type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode("key created!")
-}
-
-func main() {
-	log.Println("vekDB Starting...")
-
-	http.HandleFunc("/create", postValue)
-	http.HandleFunc("/get", getValue)
-
-	log.Println("vekDB Started!")
-	http.ListenAndServe(":3000", nil)
 }
